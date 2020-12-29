@@ -144,15 +144,18 @@ def print_sorted(results_dict: Dict[str, float], challenge: str):
     print(challenge + ":")
     names = list(results_dict.keys())
     names.sort(key=lambda x: results_dict[x])
-    for i, name in enumerate(names):
-        print(i + 1, name, results_dict[name])
+    sorted_names = [(i + 1, name, results_dict[name]) for i, name in enumerate(names)]
+    for res in sorted_names:
+        print(*res)
+    df = pd.DataFrame(sorted_names, columns=["rank", "name", "brier score"])
+    df.to_csv(os.path.join("out", challenge + ".csv"))
     print("\n\n")
 
 
 def print_sorted_forecasts():
-    print_sorted(results_1st, "First challenge")
-    print_sorted(results_2nd, "Second challenge")
-    print_sorted(results_total, "Total 2020 predictions score")
+    print_sorted(results_1st, "First")
+    print_sorted(results_2nd, "Second")
+    print_sorted(results_total, "Total")
 
 
 def main() -> int:
